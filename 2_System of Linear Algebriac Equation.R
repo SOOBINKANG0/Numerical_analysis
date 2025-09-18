@@ -129,15 +129,14 @@ LU_decom = function(A){
 }
 
 result = LU_decom(A= BB)
-rm(A, A2, AA, B, B2, BB, L, L2, U, U2)
+rm(A, A2, AA, B, B2, BB, L, L2, U, U2, lambda)
 ####################################################################
 
-## 3. Cholesky decomposition(Pivot 연산이 필요없어서 수치적 안정)
+## 3. Choleski decomposition(Pivot 연산이 필요없어서 수치적 안정)
 ## example 2.6
-A = matrix(c(4, -2, 2, -2, 2, -4, 2,-4, 11), byrow = T, ncol = 3)
-A == t(chol(A)) %*% chol(A))
 
-## symmetric 점검
+A = matrix(c(4, -2, 2, -2, 2, -4, 2, -4, 11), byrow = T, nrow = 3)
+## 1) symmetric 점검
 sym = function(x){
   
   # 1.squred matrix 점검
@@ -147,17 +146,51 @@ sym = function(x){
     # i = 행, k = 열
     for(i in 1:nrow(x)){
       
-      for(k in 1:ncol(x)){
+      for(k in (i+1):ncol(x)){
+        
+        if(i == k){
+          next
+        } 
+        
+        if(x[i,k] != x[k,i]){
+          print("it is not Symmetric")
+          return()
+        }
         
       }
       
     }
+    print("it is symmetric matrix")
     
-  } else {
+    } else {
     print("this matrix cannot do Cholesky decomposition because it is not a square matrix")
-  }
+    }
 }
 
+## 2) choleski decomposition body
+
+Chol_decom = function(x){
+  
+  ## 저장공간
+  n = ncol(x)
+  res = list(L = matrix(0,ncol = ncol(x), nrow = nrow(x)))
+  
+  ## 대칭성 테스트
+  sym(x)
+  
+  ## decomposition
+  ## 행:i(안쪽 루프), 열:k(바깥 루프)
+  for(k in 1:n){
+    for(i in 1:n){
+      
+      
+      
+    }
+  }
+  ##
+  return(list(C = x, CT = t(x)))
+  
+}
 
 ## 4. Gauss-seidel method(indirect or iterative method)
 
