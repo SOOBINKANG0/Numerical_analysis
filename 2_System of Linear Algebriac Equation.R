@@ -86,7 +86,15 @@ Gauss_eli(A,B)
 A2 = matrix(c(1,4,1,1,6,-1,2,-1,2), byrow = T, ncol = 3)
 B2 = matrix(c(7,13,5), byrow = T, ncol = 1)
 
-Gauss_eli(A2, B2)
+BBB = matrix(c(4, 3, 1, 4,
+             2, 1, 0 ,1,
+             1, 0, 1, 2,
+             4, 1, 2, -1), byrow = T, nrow = 4)
+
+CCC = matrix(c(1,3,2,4), nrow = 4)
+
+solve(BBB) %*% CCC
+Gauss_eli(BBB, CCC)
 
 ####################################################################
 
@@ -129,35 +137,74 @@ LU_decom = function(A){
 }
 
 result = LU_decom(A= BB)
-rm(A, A2, AA, B, B2, BB, L, L2, U, U2)
+rm(A, A2, AA, B, B2, BB, L, L2, U, U2, lambda, BBB,CCC, Sol, x, result)
 ####################################################################
-
-## 3. Cholesky decomposition(Pivot 연산이 필요없어서 수치적 안정)
-## example 2.6
-A = matrix(c(4, -2, 2, -2, 2, -4, 2,-4, 11), byrow = T, ncol = 3)
-A == t(chol(A)) %*% chol(A))
-
-## symmetric 점검
 sym = function(x){
-  
+
   # 1.squred matrix 점검
   if(ncol(x) == nrow(x)){
-    
+
     # 2. 실제로 대칭인지 점검
     # i = 행, k = 열
-    for(i in 1:nrow(x)){
-      
-      for(k in 1:ncol(x)){
-        
+    for(i in 1:(nrow(x)-1)){
+
+      for(k in (i+1):(ncol(x))){
+
+        if(i == k){
+          next
+        }
+
+        if(x[i,k] != x[k,i]){
+          print("it is not Symmetric")
+          return()
+        }
+
       }
-      
+
     }
-    
+    print("it is symmetric matrix")
+
   } else {
     print("this matrix cannot do Cholesky decomposition because it is not a square matrix")
   }
 }
 
+## 3. Choleski decomposition(Pivot 연산이 필요없어서 수치적 안정)
+## example 2.6
+
+A = matrix(c(4, -2, 2, -2, 2, -4, 2, -4, 11), byrow = T, nrow = 3)
+B = matrix(c(5, 2, 1, 4,
+             2, 1, 0 ,1,
+             1, 0, 1, 2,
+             4, 1, 2, 5), byrow = T, nrow = 4)
+t(chol(A)) 
+
+chol(B)
+
+## 1. line by line
+x = matrix(0, nrow = 3, ncol = 3)
+
+x[1,1] <- sqrt(A[1,1]); x[2,1] <- A[2,1]/x[1,1]; x[3,1] <- A[3,1]/x[1,1]; 
+x[2,2] <- sqrt(A[2,2] - x[2,1]^2); x[3,2] <- (A[3,2]-x[2,1]*x[3,1])/x[2,2];
+x[3,3] <- sqrt(A[3,3]- x[3,2]^2 - x[3,1]^2)
+
+## 2. generalization
+Chol_decom = function(x){
+  
+  ## 저장공간
+  n = ncol(x)
+  res = list(L = matrix(0,ncol = ncol(x), nrow = nrow(x)))
+  
+  ## decomposition 행:i 열:k
+  for(i in 1:n){ # 열
+    for(k in 1:n){ # 행
+      res[i,j] = x[]
+    }
+  }
+  ##
+  return(res)
+  
+}
 
 ## 4. Gauss-seidel method(indirect or iterative method)
 
