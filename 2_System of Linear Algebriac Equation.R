@@ -137,8 +137,19 @@ LU_decom = function(A){
 }
 
 result = LU_decom(A= BB)
+<<<<<<< HEAD
 rm(A, A2, AA, B, B2, BB, L, L2, U, U2, lambda, BBB,CCC, Sol, x, result)
 ####################################################################
+=======
+rm(A, A2, AA, B, B2, BB, L, L2, U, U2, lambda)
+####################################################################
+
+## 3. Choleski decomposition(Pivot 연산이 필요없어서 수치적 안정)
+## example 2.6
+
+A = matrix(c(4, -2, 2, -2, 2, -4, 2, -4, 11), byrow = T, nrow = 3)
+## 1) symmetric 점검
+>>>>>>> df4f7ca4864c54ca80b4a8671a53cfb0b9867412
 sym = function(x){
 
   # 1.squred matrix 점검
@@ -146,6 +157,7 @@ sym = function(x){
 
     # 2. 실제로 대칭인지 점검
     # i = 행, k = 열
+<<<<<<< HEAD
     for(i in 1:(nrow(x)-1)){
 
       for(k in (i+1):(ncol(x))){
@@ -154,21 +166,41 @@ sym = function(x){
           next
         }
 
+=======
+    for(i in 1:nrow(x)){
+      
+      for(k in (i+1):ncol(x)){
+        
+        if(i == k){
+          next
+        } 
+        
+>>>>>>> df4f7ca4864c54ca80b4a8671a53cfb0b9867412
         if(x[i,k] != x[k,i]){
           print("it is not Symmetric")
           return()
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> df4f7ca4864c54ca80b4a8671a53cfb0b9867412
       }
 
     }
     print("it is symmetric matrix")
+<<<<<<< HEAD
 
   } else {
+=======
+    
+    } else {
+>>>>>>> df4f7ca4864c54ca80b4a8671a53cfb0b9867412
     print("this matrix cannot do Cholesky decomposition because it is not a square matrix")
-  }
+    }
 }
 
+<<<<<<< HEAD
 ## 3. Choleski decomposition(Pivot 연산이 필요없어서 수치적 안정)
 ## example 2.6
 
@@ -189,12 +221,17 @@ x[2,2] <- sqrt(A[2,2] - x[2,1]^2); x[3,2] <- (A[3,2]-x[2,1]*x[3,1])/x[2,2];
 x[3,3] <- sqrt(A[3,3]- x[3,2]^2 - x[3,1]^2)
 
 ## 2. generalization
+=======
+## 2) choleski decomposition body
+
+>>>>>>> df4f7ca4864c54ca80b4a8671a53cfb0b9867412
 Chol_decom = function(x){
   
   ## 저장공간
   n = ncol(x)
   res = list(L = matrix(0,ncol = ncol(x), nrow = nrow(x)))
   
+<<<<<<< HEAD
   ## decomposition 행:i 열:k
   for(i in 1:n){ # 열
     for(k in 1:n){ # 행
@@ -203,6 +240,22 @@ Chol_decom = function(x){
   }
   ##
   return(res)
+=======
+  ## 대칭성 테스트
+  sym(x)
+  
+  ## decomposition
+  ## 행:i(안쪽 루프), 열:k(바깥 루프)
+  for(k in 1:n){
+    for(i in 1:n){
+      
+      
+      
+    }
+  }
+  ##
+  return(list(C = x, CT = t(x)))
+>>>>>>> df4f7ca4864c54ca80b4a8671a53cfb0b9867412
   
 }
 
