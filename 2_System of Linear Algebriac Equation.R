@@ -137,19 +137,8 @@ LU_decom = function(A){
 }
 
 result = LU_decom(A= BB)
-<<<<<<< HEAD
 rm(A, A2, AA, B, B2, BB, L, L2, U, U2, lambda, BBB,CCC, Sol, x, result)
 ####################################################################
-=======
-rm(A, A2, AA, B, B2, BB, L, L2, U, U2, lambda)
-####################################################################
-
-## 3. Choleski decomposition(Pivot 연산이 필요없어서 수치적 안정)
-## example 2.6
-
-A = matrix(c(4, -2, 2, -2, 2, -4, 2, -4, 11), byrow = T, nrow = 3)
-## 1) symmetric 점검
->>>>>>> df4f7ca4864c54ca80b4a8671a53cfb0b9867412
 sym = function(x){
 
   # 1.squred matrix 점검
@@ -157,7 +146,6 @@ sym = function(x){
 
     # 2. 실제로 대칭인지 점검
     # i = 행, k = 열
-<<<<<<< HEAD
     for(i in 1:(nrow(x)-1)){
 
       for(k in (i+1):(ncol(x))){
@@ -166,41 +154,21 @@ sym = function(x){
           next
         }
 
-=======
-    for(i in 1:nrow(x)){
-      
-      for(k in (i+1):ncol(x)){
-        
-        if(i == k){
-          next
-        } 
-        
->>>>>>> df4f7ca4864c54ca80b4a8671a53cfb0b9867412
         if(x[i,k] != x[k,i]){
           print("it is not Symmetric")
           return()
         }
-<<<<<<< HEAD
 
-=======
-        
->>>>>>> df4f7ca4864c54ca80b4a8671a53cfb0b9867412
       }
 
     }
     print("it is symmetric matrix")
-<<<<<<< HEAD
 
   } else {
-=======
-    
-    } else {
->>>>>>> df4f7ca4864c54ca80b4a8671a53cfb0b9867412
     print("this matrix cannot do Cholesky decomposition because it is not a square matrix")
-    }
+  }
 }
 
-<<<<<<< HEAD
 ## 3. Choleski decomposition(Pivot 연산이 필요없어서 수치적 안정)
 ## example 2.6
 
@@ -213,53 +181,63 @@ t(chol(A))
 
 chol(B)
 
-## 1. line by line
+## 1) line by line
 x = matrix(0, nrow = 3, ncol = 3)
 
 x[1,1] <- sqrt(A[1,1]); x[2,1] <- A[2,1]/x[1,1]; x[3,1] <- A[3,1]/x[1,1]; 
+
 x[2,2] <- sqrt(A[2,2] - x[2,1]^2); x[3,2] <- (A[3,2]-x[2,1]*x[3,1])/x[2,2];
+
 x[3,3] <- sqrt(A[3,3]- x[3,2]^2 - x[3,1]^2)
 
-## 2. generalization
-=======
-## 2) choleski decomposition body
-
->>>>>>> df4f7ca4864c54ca80b4a8671a53cfb0b9867412
+## 2) generalization
 Chol_decom = function(x){
   
   ## 저장공간
   n = ncol(x)
   res = list(L = matrix(0,ncol = ncol(x), nrow = nrow(x)))
   
-<<<<<<< HEAD
-  ## decomposition 행:i 열:k
-  for(i in 1:n){ # 열
-    for(k in 1:n){ # 행
-      res[i,j] = x[]
+  ## decomposition 행:i 열:j
+  for(j in 1:n){ # 열
+    
+    for(i in j:n){ # 행 #j = 2일때는 2,1 은 해선 안됌
+      
+      if(i == j){ 
+        squared_sum = pracma::dot()
+        res$L[i,j] <- sqrt(x[i,j] - squared_sum)
+        
+      } else {
+        res$L[i,j] <- x[i,j]
+      }
+  
     }
   }
+  
   ##
   return(res)
-=======
-  ## 대칭성 테스트
-  sym(x)
-  
-  ## decomposition
-  ## 행:i(안쪽 루프), 열:k(바깥 루프)
-  for(k in 1:n){
-    for(i in 1:n){
-      
-      
-      
-    }
-  }
-  ##
-  return(list(C = x, CT = t(x)))
->>>>>>> df4f7ca4864c54ca80b4a8671a53cfb0b9867412
   
 }
+## 4. swap and partial pivoting
+## 1) line by line
+exam_piv = matrix(c(-1, 3, 2,
+                    4, 2, 4,
+                    2, 0.5, 1), byrow = T, ncol = 3)
 
-## 4. Gauss-seidel method(indirect or iterative method)
+exam_piv[c(2,3,1),]
 
-## 5. Final result
+## 2)generalize
+swap = function(X){
+  
+  idx = order(X[,1], decreasing = T)
+  X = X[idx,]
+  
+  return(X)
+}
+
+## partial pivoting
+
+
+## 5. Gauss-seidel method(indirect or iterative method)
+
+## 6. Final result
 ## -> use 'solve' from LAPACK
