@@ -19,7 +19,7 @@ if(A[2,1] != 0){
   A[2, ] <- lambda*A[2,] + A[1,]
   B[2, ] <- lambda*B[2,] + B[1,]
 }
-  
+
 if(A[3,1] != 0){
   lambda = -A[1,1]/A[3,1]
   A[3, ] <- lambda*A[3,] + A[1,]
@@ -87,9 +87,9 @@ A2 = matrix(c(1,4,1,1,6,-1,2,-1,2), byrow = T, ncol = 3)
 B2 = matrix(c(7,13,5), byrow = T, ncol = 1)
 
 BBB = matrix(c(4, 3, 1, 4,
-             2, 1, 0 ,1,
-             1, 0, 1, 2,
-             4, 1, 2, -1), byrow = T, nrow = 4)
+               2, 1, 0 ,1,
+               1, 0, 1, 2,
+               4, 1, 2, -1), byrow = T, nrow = 4)
 
 CCC = matrix(c(1,3,2,4), nrow = 4)
 
@@ -140,30 +140,30 @@ result = LU_decom(A= BB)
 rm(A, A2, AA, B, B2, BB, L, L2, U, U2, lambda, BBB,CCC, Sol, x, result)
 ####################################################################
 sym = function(x){
-
+  
   # 1.squred matrix 점검
   if(ncol(x) == nrow(x)){
-
+    
     # 2. 실제로 대칭인지 점검
     # i = 행, k = 열
     for(i in 1:(nrow(x)-1)){
-
+      
       for(k in (i+1):(ncol(x))){
-
+        
         if(i == k){
           next
         }
-
+        
         if(x[i,k] != x[k,i]){
           print("it is not Symmetric")
           return()
         }
-
+        
       }
-
+      
     }
     print("it is symmetric matrix")
-
+    
   } else {
     print("this matrix cannot do Cholesky decomposition because it is not a square matrix")
   }
@@ -209,7 +209,7 @@ Chol_decom = function(x){
       } else {
         res$L[i,j] <- x[i,j]
       }
-  
+      
     }
   }
   
