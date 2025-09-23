@@ -81,21 +81,6 @@ neville <- function(xData, yData, x) {
   return(y[1])
 }
 
-##
-neville2 <- function(xData, yData, x) {
-  
-  n <- length(xData)
-  y <- yData
-  
-  for (k in 2:n) {
-    y[k] = ((x - xData[i+k])*y[]+ (xData[i]- x)*y[]  ) / (xData[i] - xData[i+k])
-    
-  }
-  
-  # 최종 결과는 항상 첫 번째 요소에 저장됨
-  return(y[1])
-}
-
 neville(xData = data$x, yData = data$y, 1.1)
 neville(xData = data$x, yData = data$y, 1.2)
 neville(xData = data$x, yData = data$y, 1.3)
