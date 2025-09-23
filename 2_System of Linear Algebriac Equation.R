@@ -218,6 +218,7 @@ Chol_decom = function(x){
   
 }
 ## 4. swap and partial pivoting
+## Swap
 ## 1) line by line
 exam_piv = matrix(c(-1, 3, 2,
                     4, 2, 4,
@@ -235,6 +236,7 @@ swap = function(X){
 }
 
 ## partial pivoting
+## 1)
 
 
 ## 5. Gauss-seidel method(indirect or iterative method)
