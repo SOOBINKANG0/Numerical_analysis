@@ -5,11 +5,6 @@ library(polynom)
 library(tidyverse)
 library(pracma)
 
-## Polynomial function
-P = polynomial(c(6,-1,-7,1,1))
-f = as.function(P)
-approx #linearly interp
-
 ## 1. 라그랑지 방법
 lagrange_method = function(xdata, ydata, x){ 
   
@@ -45,9 +40,6 @@ lagrangeInterp(x= x, y = y, 1) # 4
 lagrange_method(xdata = x, ydata = y, x = 1) #4
 
 ## 2. Newton's Method
-##
-
-
 ## Example 3.4
 x = c(0.15, 2.3, 3.15, 4.85, 6.25, 7.95)
 y = c(4.79867, 4.49013, 4.2243, 3.47313, 2.66674, 1.51909)
@@ -84,3 +76,20 @@ neville <- function(xData, yData, x) {
 neville(xData = data$x, yData = data$y, 1.1)
 neville(xData = data$x, yData = data$y, 1.2)
 neville(xData = data$x, yData = data$y, 1.3)
+
+## 4. polynomial fit
+## 1)example 3.11, find a*exp(bx) = ln(a) + bx
+
+x = c(1.2, 2.8, 4.3, 5.4, 6.8, 7.9)
+y = c(7.5,16.1,38.9,67.0,146.6,266.2)
+ln_y = log(y, base= exp(1))
+
+res = round(lm(ln_y~x)$coefficients,4) 
+# 1.3321+0.5366x
+# ln(a) = 1.3321, exp(1.3321) = 3.788992
+par(mfrow = c(1,2))
+plot(3.788992*exp(0.5366*x)~x, type = "l"); plot(1.3321+0.5336*x~x, type = 'l')
+
+## 2)polynomial fitting
+
+## 5. cubic spline
