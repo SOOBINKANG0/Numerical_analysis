@@ -92,7 +92,7 @@ newton = function(x, f, iter, tol){
 }
 
 given_f = expression(x^4 -6.4*x^3 + 6.45*x^2+20.538*x-31.752)
-newton(x = 0, f = given_f, iter = 1000, tol = 0.0001) [1] 2.099926
+newton(x = 0, f = given_f, iter = 1000, tol = 0.0001)# [1] 2.099926
  
 ## secant method
 ## example
