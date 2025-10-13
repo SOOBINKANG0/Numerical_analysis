@@ -274,3 +274,60 @@ my_secant <- function(a, b, f, max_iter, tol, alpha) {
 res2 = my_secant(a = 0.6, b = 0.8, f = f, alpha = alpha, max_iter = 100, tol = 0.0001)
 res2 = as.data.frame(res2)
 write.csv(res2, "res2.csv")
+
+##########################
+#### System equations ####
+##########################
+install.packages("nleqslv")
+library(nleqslv)
+
+## 1) packages
+sys_eq = function(vars){
+  
+  x = vars[1]
+  y = vars[2]
+  
+  res = numeric(length(vars))
+  
+  res[1] = x^2+y^2-3
+  res[2] = x*y-1
+  
+  return(res)
+}
+
+sol = nleqslv(x = c(3,0.5), fn = sys_eq)
+print(sol$x) #[1] 1.618034 0.618034
+
+## 2) 구현
+## example 4.8
+
+J_mat = matrix()
+
+#########################
+## zero of polynomials ##
+#########################
+
+# Evaluation of polynomial
+
+## hard coding
+eval1 = function(x){
+  return(x^3-2*x^2-8*x +27) # n(n-1)/2
+}
+
+eval1(x=3) # 12
+
+## generalized
+eval2 = function(a, x){ # a is coef, x is evaluation point
+  
+  p = 0
+  
+  for(i in 1:4){
+    p = p + a[i]*x^(i-1)
+  }
+  
+  return(p)
+}
+
+eval2(a = c(27,-8,-2, 1),x = 3)
+
+## 
