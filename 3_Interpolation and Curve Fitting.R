@@ -40,11 +40,63 @@ lagrangeInterp(x= x, y = y, 1) # 4
 lagrange_method(xdata = x, ydata = y, x = 1) #4
 
 ## 2. Newton's Method
-## Example 3.4
-x = c(0.15, 2.3, 3.15, 4.85, 6.25, 7.95)
-y = c(4.79867, 4.49013, 4.2243, 3.47313, 2.66674, 1.51909)
+## example 3.2
+x = c(-2, 1, 4 , -1, 3,  -4)
+y = c(-1, 2, 59,  4, 24, -53)
 
+## 1)coef mat
+my_coef = function(x,y){
+  
+  n  = length(y)
+  bin = matrix(NA, nrow = n, ncol = n)
+  bin[,1] <- y
+    
+  for(j in 2:n){ #열
+      
+    for(i in j:n){ # 행
+    
+      bin[i,j] <- (bin[i,j-1]-bin[j-1,j-1])/(x[i]-x[j-1])
+      
+      # inductino
+      # bin[2,2] <- (bin[2,1]-bin[1,1])/(x[2]-x[1]) # 1
+      # bin[3,2] <- (bin[3,1]-bin[1,1])/(x[3]-x[1]) # 10
+      # bin[4,2] <- (bin[4,1]-bin[1,1])/(x[4]-x[1]) # 5
+      # bin[5,2] <- (bin[5,1]-bin[1,1])/(x[5]-x[1]) # 5
+      # bin[6,2] <- (bin[6,1]-bin[1,1])/(x[6]-x[1]) # 26
+      
+      # bin[3,3] <- (bin[3,2]-bin[2,2])/(x[3]-x[2]) #3
+      # bin[4,3] <- (bin[4,2]-bin[2,2])/(x[4]-x[2]) #-2
+      # bin[5,3] <- (bin[5,2]-bin[2,2])/(x[5]-x[2]) #2
+      # bin[6,3] <- (bin[6,2]-bin[2,2])/(x[6]-x[2]) #-5
 
+    }
+  }
+  return(bin)
+}
+
+res_coef = my_coef(x=x,y=y)
+
+## 2) evaluation
+my_eval = function(x, coef, x_new){
+  
+  a = as.numeric(diag(coef))
+  n = length(x)-1 # 다항식 차수
+  p = a[n+1]
+  
+  for(i in n:1){
+  p <- a[i] + (x_new - x[i])*p
+  }
+  
+  return(p)
+}
+
+my_eval(x = x, coef = res_coef, x_new = 1)
+
+plot(x=x,y=y)
+
+x_grid = seq(from = min(x), to = max(x), by = 0.01)
+y_grid = my_eval(x = x, coef = res_coef, x_new = x_grid)
+lines(x_grid, y_grid, lwd = 3)
 
 ## 3. Neville's Method
 ## 자주 쓰지 않는 알고리즘이므로 GPT로 만듦
@@ -91,5 +143,7 @@ par(mfrow = c(1,2))
 plot(3.788992*exp(0.5366*x)~x, type = "l"); plot(1.3321+0.5336*x~x, type = 'l')
 
 ## 2)polynomial fitting
+## 생략
 
 ## 5. cubic spline
+## 이걸 잘해야할듯
