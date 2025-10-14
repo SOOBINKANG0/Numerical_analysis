@@ -299,9 +299,53 @@ sol = nleqslv(x = c(3,0.5), fn = sys_eq)
 print(sol$x) #[1] 1.618034 0.618034
 
 ## 2) 구현
-## example 4.8
+origin_f <- function(vars) {
+  x <- vars[1]
+  y <- vars[2]
+  
+  results <- numeric(2)
+  results[1] <- x^2+y^2-3 # f1
+  results[2] <- x*y-1            # f2
+  
+  return(results)
+}
 
-J_mat = matrix()
+
+Jacobi_f = function(vars){
+  
+  x = vars[1]
+  y = vars[2]
+  
+  J = matrix(NA, ncol = 2, nrow = 2)
+  
+  J[1,1] <-2*x   ; J[1,2] <- 2*y
+  J[2,1] <- y ; J[2,2] <- x
+    
+  return(J)
+}
+
+my_newton = function(vars, max_iter, tol){
+  
+  x0 <- vars
+  
+  for(i in 1:max_iter){
+    
+    origin_val = origin_f(x0)
+    Jacobi_val = Jacobi_f(x0)
+    
+    delta_x <- solve(Jacobi_val, -origin_val)
+    x_next <- x0 + delta_x
+    
+    if(sqrt(sum(delta_x^2)) < tol){
+      break
+    }
+ 
+    x0 <- x_next
+  }
+  return(x_next)
+}
+
+my_newton(vars = c(3,0.5), max_iter = 100, tol = 0.0001)
 
 #########################
 ## zero of polynomials ##
